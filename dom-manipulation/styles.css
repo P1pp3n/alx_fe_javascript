@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#thought {
+    font-size: 24px;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3e8e41;
+}
+
+input[type="number"] {
+    width: 50px;
+    height: 30px;
+    font-size: 18px;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+}
+
+#countnum {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
