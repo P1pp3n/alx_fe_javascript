@@ -26,6 +26,20 @@ async function updateQuotes(quotes) {
     }
 }
 
+// Function to create a new post on the server
+async function createPost(post) {
+    try {
+        const response = await fetch(apiUrlPosts, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(post),
+        });
+        return response.json();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 // Function to resolve conflicts
 async function resolveConflict(localQuotes, serverQuotes) {
     // Implement conflict resolution strategy here
@@ -119,3 +133,17 @@ setInterval(async function () {
     const posts = await response.json();
     console.log(posts);
 }, 10000); // Fetch every 10 seconds
+
+// Create a new post on the server
+async function createNewPost() {
+    const post = {
+        title: 'New Post',
+        body: 'This is a new post',
+        userId: 1,
+    };
+    const response = await createPost(post);
+    console.log(response);
+}
+
+// Create a new post on page load
+createNewPost();
