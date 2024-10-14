@@ -61,6 +61,19 @@ function filterQuotes() {
     });
 }
 
+// Show a random quote
+function showRandomQuote() {
+    if (quotes.length > 0) {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const randomQuote = quotes[randomIndex];
+        const quoteDisplay = document.getElementById("quoteDisplay");
+        quoteDisplay.innerHTML = `"${randomQuote.text}" - ${randomQuote.category}`;
+    } else {
+        const quoteDisplay = document.getElementById("quoteDisplay");
+        quoteDisplay.innerHTML = "No quotes available.";
+    }
+}
+
 // Remember the last selected filter
 function saveFilter() {
     const selectedCategory = document.getElementById("categoryFilter").value;
@@ -81,3 +94,6 @@ loadFilter();
 // Add event listeners to buttons
 document.getElementById("exportButton").addEventListener("click", exportQuotesToJson);
 document.getElementById("importFile").addEventListener("change", importFromJsonFile);
+
+// Call showRandomQuote on page load
+showRandomQuote();
