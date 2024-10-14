@@ -158,9 +158,10 @@ async function syncQuotes(quotes) {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(quotes),
-        });
+ });
+        console.log("Quotes synced with server!");
         return response.json();
-           } catch (error) {
-               console.error(error);
-           }
-       }
+    } catch (error) {
+        console.error(error);
+    }
+}
