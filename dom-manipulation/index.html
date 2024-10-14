@@ -7,71 +7,23 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f0f0f0;
-        }
-
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-
-        #quoteDisplay {
-            margin: 20px 0;
-            font-size: 1.2em;
-            text-align: center;
-        }
-
-        #newQuote {
-            margin: 10px 0;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #newQuote:hover {
-            background-color: #3e8e41;
-        }
-
-        input[type="text"] {
-            margin: 10px 0;
-            padding: 10px;
-            font-size: 1.2em;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            margin: 10px 0;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #3e8e41;
         }
     </style>
 </head>
 <body>
     <h1>Dynamic Quote Generator</h1>
-    <div id="quoteDisplay"></div>
-    <button id="newQuote">Show New Quote</button>
-    
-    <div>
-        <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-        <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
+    <form>
+        <label for="newQuoteText">Quote:</label>
+        <input type="text" id="newQuoteText" name="newQuoteText"><br><br>
+        <label for="newQuoteCategory">Category:</label>
+        <input type="text" id="newQuoteCategory" name="newQuoteCategory"><br><br>
         <button onclick="addQuote()">Add Quote</button>
-    </div>
-    
+    </form>
+    <button onclick="showRandomQuote()">Show Random Quote</button>
+    <div id="quoteDisplay"></div>
+    <button id="exportButton">Export Quotes to JSON</button>
+    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)">
+
     <script src="script.js"></script>
 </body>
 </html>
