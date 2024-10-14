@@ -65,4 +65,5 @@ function importFromJsonFile(event) {
 }
 
 // Add event listeners to buttons
-document.getElementById("exportButton").onclick = exportQuotesToJson;
+document.getElementById("exportButton").addEventListener("click", exportQuotesToJson);
+document.getElementById("importFile").addEventListener("change", importFromJsonFile);
