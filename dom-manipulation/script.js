@@ -32,6 +32,12 @@ async function resolveConflict(localQuotes, serverQuotes) {
     return localQuotes;
 }
 
+// Function to fetch quotes from the server
+async function fetchQuotesFromServer() {
+    const quotes = await getQuotes();
+    localStorage.setItem('quotes', JSON.stringify(quotes));
+}
+
 // Function to display quotes
 function displayQuote(quotes, index) {
     const thought = document.getElementById('thought');
@@ -102,3 +108,6 @@ async function newQuote() {
 }
 
 newQuote();
+
+// Fetch quotes from server on page load
+fetchQuotesFromServer();
