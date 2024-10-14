@@ -1,10 +1,11 @@
 // Simulate server interaction using JSONPlaceholder
-const apiUrl = 'https://jsonplaceholder.typicode.com/quotes';
+const apiUrlQuotes = 'https://jsonplaceholder.typicode.com/quotes';
+const apiUrlPosts = 'https://jsonplaceholder.typicode.com/posts';
 
 // Function to retrieve quotes from the server
 async function getQuotes() {
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrlQuotes);
         return response.json();
     } catch (error) {
         console.error(error);
@@ -14,7 +15,7 @@ async function getQuotes() {
 // Function to update quotes on the server
 async function updateQuotes(quotes) {
     try {
-        const response = await fetch(apiUrl, {
+        const response = await fetch(apiUrlQuotes, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(quotes),
@@ -99,7 +100,7 @@ async function newQuote() {
     // Periodically sync data with server
     setInterval(async function () {
         const localQuotes = await getQuotes();
-        const serverQuotes = await fetch(apiUrl);
+        const serverQuotes = await fetch(apiUrlQuotes);
         const resolvedQuotes = await resolveConflict(localQuotes, serverQuotes);
 
         // Update local storage with resolved quotes
@@ -111,3 +112,10 @@ newQuote();
 
 // Fetch quotes from server on page load
 fetchQuotesFromServer();
+
+// Periodically fetch posts from server
+setInterval(async function () {
+    const response = await fetch(apiUrlPosts);
+    const posts = await response.json();
+    console.log(posts);
+}, 10000); // Fetch every 10 seconds
