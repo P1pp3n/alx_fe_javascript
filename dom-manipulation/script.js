@@ -119,6 +119,9 @@ async function newQuote() {
 
         // Update local storage with resolved quotes
         localStorage.setItem('quotes', JSON.stringify(resolvedQuotes));
+
+        // Sync quotes with server
+        await syncQuotes(resolvedQuotes);
     }, 10000); // Sync every 10 seconds
 }
 
@@ -147,3 +150,17 @@ async function createNewPost() {
 
 // Create a new post on page load
 createNewPost();
+
+// Function to sync quotes with server
+async function syncQuotes(quotes) {
+    try {
+        const response = await fetch(apiUrlQuotes, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(quotes),
+        });
+        return response.json();
+           } catch (error) {
+               console.error(error);
+           }
+       }
