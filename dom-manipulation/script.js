@@ -16,7 +16,7 @@ let quotes = [
     quoteDisplay.innerHTML = `<p>"${randomQuote.text}"</p><p><em>- ${randomQuote.category}</em></p>`;
   }
   
-  // Function to dynamically create the form to add a new quote
+  // Functiion to dynamically create the form to add a new quote
   function createAddQuoteForm() {
     const formHTML = `
       <div>
