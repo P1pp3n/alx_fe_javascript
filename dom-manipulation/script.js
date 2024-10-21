@@ -50,9 +50,7 @@ function addQuote() {
     if (newQuoteText && newQuoteCategory) {
         quotes.push({ text: newQuoteText, category: newQuoteCategory });
         saveQuotes(); // Save to local storage
-
-        // Clear and display new quote
-        showRandomQuote();
+        showRandomQuote(); // Display the new quote
 
         document.getElementById('newQuoteText').value = '';
         document.getElementById('newQuoteCategory').value = '';
