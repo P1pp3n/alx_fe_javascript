@@ -114,16 +114,19 @@ function importFromJsonFile(event) {
 
 // Add event listeners
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
+
 window.onload = function() {
     loadQuotes(); // Load quotes on startup
     createAddQuoteForm();
 
-    // Create import and export buttons
+    // Create export button dynamically
     const exportButton = document.createElement('button');
     exportButton.textContent = 'Export Quotes to JSON';
+    exportButton.id = 'exportQuotes';
     exportButton.addEventListener('click', exportToJson);
     document.body.appendChild(exportButton);
 
+    // Create import input dynamically
     const importInput = document.createElement('input');
     importInput.type = 'file';
     importInput.id = 'importFile';
