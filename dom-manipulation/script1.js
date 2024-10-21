@@ -7,15 +7,15 @@ let quotes = [
   
   // Load existing quotes from local storage
   function loadQuotes() {
-    const storedQuotes = localStorage.getItem('quotes'); // Retrieve quotes from local storage
+    const storedQuotes = localStorage.getItem('quotes');
     if (storedQuotes) {
-      quotes = JSON.parse(storedQuotes); // Parse and set the quotes
+      quotes = JSON.parse(storedQuotes);
     }
   }
   
   // Save quotes to local storage
   function saveQuotes() {
-    localStorage.setItem('quotes', JSON.stringify(quotes)); // Store quotes in local storage
+    localStorage.setItem('quotes', JSON.stringify(quotes));
   }
   
   // Function to display a random quote
@@ -35,38 +35,9 @@ let quotes = [
   
     quoteDisplay.appendChild(quoteText);
     quoteDisplay.appendChild(quoteCategory);
-  
-    // Store last viewed quote index in session storage
-    sessionStorage.setItem('lastViewedQuoteIndex', randomIndex);
   }
   
-  // Function to create the form to add a new quote
-  function createAddQuoteForm() {
-    const formDiv = document.createElement('div');
-  
-    const newQuoteText = document.createElement('input');
-    newQuoteText.id = 'newQuoteText';
-    newQuoteText.type = 'text';
-    newQuoteText.placeholder = 'Enter a new quote';
-  
-    const newQuoteCategory = document.createElement('input');
-    newQuoteCategory.id = 'newQuoteCategory';
-    newQuoteCategory.type = 'text';
-    newQuoteCategory.placeholder = 'Enter quote category';
-  
-    const addButton = document.createElement('button');
-    addButton.textContent = 'Add Quote';
-    addButton.addEventListener('click', addQuote);
-  
-    formDiv.appendChild(newQuoteText);
-    formDiv.appendChild(newQuoteCategory);
-    formDiv.appendChild(addButton);
-  
-    const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.insertAdjacentElement('afterend', formDiv);
-  }
-  
-  // Function to add a new quote to the array and display it
+  // Function to add a new quote
   function addQuote() {
     const newQuoteText = document.getElementById('newQuoteText').value;
     const newQuoteCategory = document.getElementById('newQuoteCategory').value;
@@ -74,20 +45,7 @@ let quotes = [
     if (newQuoteText && newQuoteCategory) {
       quotes.push({ text: newQuoteText, category: newQuoteCategory });
       saveQuotes(); // Save updated quotes to local storage
-      
-      const quoteDisplay = document.getElementById('quoteDisplay');
-      quoteDisplay.innerHTML = '';
-  
-      const quoteTextElement = document.createElement('p');
-      quoteTextElement.textContent = `"${newQuoteText}"`;
-  
-      const quoteCategoryElement = document.createElement('p');
-      quoteCategoryElement.textContent = `— ${newQuoteCategory}`;
-      quoteCategoryElement.style.fontStyle = 'italic';
-  
-      quoteDisplay.appendChild(quoteTextElement);
-      quoteDisplay.appendChild(quoteCategoryElement);
-  
+      showRandomQuote(); // Show the new quote immediately
       document.getElementById('newQuoteText').value = '';
       document.getElementById('newQuoteCategory').value = '';
     } else {
@@ -95,7 +53,7 @@ let quotes = [
     }
   }
   
-  // Function to export quotes to JSON
+  // Export quotes to JSON
   function exportToJson() {
     const blob = new Blob([JSON.stringify(quotes, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -108,7 +66,7 @@ let quotes = [
     URL.revokeObjectURL(url);
   }
   
-  // Function to import quotes from JSON file
+  // Import quotes from JSON
   function importFromJsonFile(event) {
     const fileReader = new FileReader();
     fileReader.onload = function(event) {
@@ -120,12 +78,10 @@ let quotes = [
     fileReader.readAsText(event.target.files[0]);
   }
   
-  // Add event listener to the "Show New Quote" button
+  // Event listeners
   document.getElementById('newQuote').addEventListener('click', showRandomQuote);
-  
-  // Load quotes when the page loads
   window.onload = function() {
-    loadQuotes(); // Load quotes from local storage
-    createAddQuoteForm();
+    loadQuotes(); // Load quotes when the page loads
+    createAddQuoteForm(); // Call function to create the form
   };
   
