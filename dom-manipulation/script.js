@@ -13,22 +13,54 @@ let quotes = [
   
     // Update the DOM to display the quote
     const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.innerHTML = `<p>"${randomQuote.text}"</p><p><em>- ${randomQuote.category}</em></p>`;
+    
+    // Clear the current content
+    quoteDisplay.innerHTML = '';
+  
+    // Create paragraph for the quote text
+    const quoteText = document.createElement('p');
+    quoteText.textContent = `"${randomQuote.text}"`;
+  
+    // Create paragraph for the quote category (author/category)
+    const quoteCategory = document.createElement('p');
+    quoteCategory.textContent = `— ${randomQuote.category}`;
+    quoteCategory.style.fontStyle = 'italic';
+  
+    // Append the new elements to the quoteDisplay div
+    quoteDisplay.appendChild(quoteText);
+    quoteDisplay.appendChild(quoteCategory);
   }
   
-  // Functiion to dynamically create the form to add a new quote
+  // Function to dynamically create the form to add a new quote
   function createAddQuoteForm() {
-    const formHTML = `
-      <div>
-        <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-        <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-        <button onclick="addQuote()">Add Quote</button>
-      </div>
-    `;
+    // Create a div to wrap the form elements
+    const formDiv = document.createElement('div');
+  
+    // Create input for the new quote text
+    const newQuoteText = document.createElement('input');
+    newQuoteText.id = 'newQuoteText';
+    newQuoteText.type = 'text';
+    newQuoteText.placeholder = 'Enter a new quote';
     
-    // Insert the form into the DOM below the quote display
+    // Create input for the new quote category
+    const newQuoteCategory = document.createElement('input');
+    newQuoteCategory.id = 'newQuoteCategory';
+    newQuoteCategory.type = 'text';
+    newQuoteCategory.placeholder = 'Enter quote category';
+  
+    // Create a button to add the new quote
+    const addButton = document.createElement('button');
+    addButton.textContent = 'Add Quote';
+    addButton.addEventListener('click', addQuote);
+  
+    // Append the inputs and button to the form div
+    formDiv.appendChild(newQuoteText);
+    formDiv.appendChild(newQuoteCategory);
+    formDiv.appendChild(addButton);
+  
+    // Insert the form div into the DOM, below the quote display
     const quoteDisplay = document.getElementById('quoteDisplay');
-    quoteDisplay.insertAdjacentHTML('afterend', formHTML);
+    quoteDisplay.insertAdjacentElement('afterend', formDiv);
   }
   
   // Function to add a new quote to the array and display it
@@ -40,8 +72,20 @@ let quotes = [
       // Add new quote to the array
       quotes.push({ text: newQuoteText, category: newQuoteCategory });
       
-      // Display the newly added quote
-      document.getElementById('quoteDisplay').innerHTML = `<p>"${newQuoteText}"</p><p><em>- ${newQuoteCategory}</em></p>`;
+      // Clear the quote display and show the newly added quote
+      const quoteDisplay = document.getElementById('quoteDisplay');
+      quoteDisplay.innerHTML = '';  // Clear any previous content
+  
+      // Display the newly added quote using DOM manipulation
+      const quoteTextElement = document.createElement('p');
+      quoteTextElement.textContent = `"${newQuoteText}"`;
+      
+      const quoteCategoryElement = document.createElement('p');
+      quoteCategoryElement.textContent = `— ${newQuoteCategory}`;
+      quoteCategoryElement.style.fontStyle = 'italic';
+  
+      quoteDisplay.appendChild(quoteTextElement);
+      quoteDisplay.appendChild(quoteCategoryElement);
   
       // Clear the input fields
       document.getElementById('newQuoteText').value = '';
