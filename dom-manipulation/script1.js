@@ -7,7 +7,10 @@ function showRandomQuote() {
   if (quotes.length > 0) {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const randomQuote = quotes[randomIndex];
-    quoteDisplay.innerHTML = `<p>${randomQuote.text}</p><p>Category: ${randomQuote.category}</p>`;
+    quoteDisplay.innerHTML = `<p>"${randomQuote.text}"</p><p>— ${randomQuote.category}</p>`;
+    
+    // Save the last viewed quote in session storage
+    sessionStorage.setItem('lastViewedQuote', JSON.stringify(randomQuote));
   } else {
     quoteDisplay.innerHTML = '<p>No quotes available.</p>';
   }
@@ -15,23 +18,26 @@ function showRandomQuote() {
 
 // Function to create the add quote form
 function createAddQuoteForm() {
-  const addQuoteForm = document.createElement('div');
-  addQuoteForm.innerHTML = `
+  const formDiv = document.createElement('div');
+  formDiv.innerHTML = `
     <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
     <button id="addQuoteButton">Add Quote</button>
+    <button id="exportButton">Export to JSON</button>
+    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
   `;
-  document.body.appendChild(addQuoteForm);
+  document.body.appendChild(formDiv);
 }
 
 // Function to add a new quote
 function addQuote() {
   const newQuoteText = document.getElementById('newQuoteText').value;
   const newQuoteCategory = document.getElementById('newQuoteCategory').value;
+
   if (newQuoteText && newQuoteCategory) {
     const newQuote = { text: newQuoteText, category: newQuoteCategory };
     quotes.push(newQuote);
-    saveQuotes(); // Save quotes to local storage
+    saveQuotes(); // Save to local storage
     showRandomQuote();
     document.getElementById('newQuoteText').value = '';
     document.getElementById('newQuoteCategory').value = '';
@@ -42,20 +48,20 @@ function addQuote() {
 
 // Function to save quotes to local storage
 function saveQuotes() {
-  localStorage.setItem('quotes', JSON.stringify(quotes)); // Save the quotes array as a JSON string
+  localStorage.setItem('quotes', JSON.stringify(quotes));
 }
 
 // Load existing quotes from local storage
 function loadQuotes() {
-  const storedQuotes = localStorage.getItem('quotes'); // Retrieve the quotes from local storage
+  const storedQuotes = localStorage.getItem('quotes');
   if (storedQuotes) {
-    quotes = JSON.parse(storedQuotes); // Parse the JSON string back into an array
+    quotes = JSON.parse(storedQuotes); // Use localStorage.getItem() to retrieve quotes
   }
 }
 
-// Function to export quotes to a JSON file
+// Implement JSON Export
 function exportToJsonFile() {
-  const jsonQuotes = JSON.stringify(quotes);
+  const jsonQuotes = JSON.stringify(quotes, null, 2); // Pretty print JSON
   const blob = new Blob([jsonQuotes], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -64,7 +70,7 @@ function exportToJsonFile() {
   a.click();
 }
 
-// Function to import quotes from a JSON file
+// Implement JSON Import
 function importFromJsonFile(event) {
   const fileReader = new FileReader();
   fileReader.onload = function(event) {
@@ -78,25 +84,11 @@ function importFromJsonFile(event) {
 }
 
 // Initialize the application
-loadQuotes();
+loadQuotes(); // Load quotes from local storage
 createAddQuoteForm();
 showRandomQuote();
 
 // Add event listener to the "Show New Quote" button
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
-
-// Add event listener to the "Add Quote" button
 document.getElementById('addQuoteButton').addEventListener('click', addQuote);
-
-// Add event listener to the "Export to JSON" button
-const exportButton = document.createElement('button');
-exportButton.textContent = 'Export to JSON';
-exportButton.onclick = exportToJsonFile;
-document.body.appendChild(exportButton);
-
-// Add event listener to the "Import from JSON" input
-const importInput = document.createElement('input');
-importInput.type = 'file';
-importInput.accept = '.json';
-importInput.onchange = importFromJsonFile;
-document.body.appendChild(importInput);
+document.getElementById('exportButton').addEventListener('click', exportToJsonFile);
