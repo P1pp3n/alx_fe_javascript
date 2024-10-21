@@ -88,7 +88,7 @@ function addQuote() {
 // Function to export quotes to a JSON file
 function exportToJsonFile() {
     const jsonQuotes = JSON.stringify(quotes, null, 2);
-    const blob = new Blob([jsonQuotes], { type: 'application/json' });
+    const blob = new Blob ([jsonQuotes], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
