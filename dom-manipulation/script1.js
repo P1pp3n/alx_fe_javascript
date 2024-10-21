@@ -7,15 +7,15 @@ let quotes = [
   
   // Load existing quotes from local storage
   function loadQuotes() {
-    const storedQuotes = localStorage.getItem('quotes');
+    const storedQuotes = localStorage.getItem('quotes'); // Retrieve quotes from local storage
     if (storedQuotes) {
-      quotes = JSON.parse(storedQuotes);
+      quotes = JSON.parse(storedQuotes); // Parse and set the quotes
     }
   }
   
   // Save quotes to local storage
   function saveQuotes() {
-    localStorage.setItem('quotes', JSON.stringify(quotes));
+    localStorage.setItem('quotes', JSON.stringify(quotes)); // Store quotes in local storage
   }
   
   // Function to display a random quote
@@ -73,7 +73,7 @@ let quotes = [
   
     if (newQuoteText && newQuoteCategory) {
       quotes.push({ text: newQuoteText, category: newQuoteCategory });
-      saveQuotes();
+      saveQuotes(); // Save updated quotes to local storage
       
       const quoteDisplay = document.getElementById('quoteDisplay');
       quoteDisplay.innerHTML = '';
@@ -114,7 +114,7 @@ let quotes = [
     fileReader.onload = function(event) {
       const importedQuotes = JSON.parse(event.target.result);
       quotes.push(...importedQuotes);
-      saveQuotes();
+      saveQuotes(); // Save imported quotes to local storage
       alert('Quotes imported successfully!');
     };
     fileReader.readAsText(event.target.files[0]);
@@ -125,7 +125,7 @@ let quotes = [
   
   // Load quotes when the page loads
   window.onload = function() {
-    loadQuotes();
+    loadQuotes(); // Load quotes from local storage
     createAddQuoteForm();
   };
   
