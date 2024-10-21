@@ -119,7 +119,7 @@ window.onload = function() {
 
     // Create export button dynamically
     const exportButton = document.createElement('button');
-    exportButton.textContent = 'Export Quotes to JSON';
+    exportButton.textContent = 'Export Quotes';
     exportButton.id = 'exportQuotes';
     exportButton.addEventListener('click', exportToJson);
     document.body.appendChild(exportButton);
