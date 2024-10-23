@@ -89,12 +89,30 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     showRandomQuote();  // Display a random quote from the selected category
   }
   
+  // Function to fetch quotes from the server (Simulated)
+  async function fetchQuotesFromServer() {
+    try {
+      const response = await fetch(serverApiUrl);
+      const serverQuotes = await response.json();
+      
+      // Assume that the server returns quotes in the correct format (text and category)
+      const formattedQuotes = serverQuotes.map(quote => ({
+        text: quote.title,  // Using 'title' from the mock API as the quote text
+        category: "General"  // Assigning a default category since the mock API doesn't have categories
+      }));
+  
+      return formattedQuotes;
+    } catch (error) {
+      console.error('Error fetching quotes from server:', error);
+      return [];
+    }
+  }
+  
   // Function to sync quotes with the server (Simulated)
   async function syncWithServer() {
     try {
       // Fetch quotes from server
-      const response = await fetch(serverApiUrl);
-      const serverQuotes = await response.json();
+      const serverQuotes = await fetchQuotesFromServer();
   
       // Conflict resolution: server takes precedence
       const conflicts = resolveConflicts(serverQuotes, quotes);
