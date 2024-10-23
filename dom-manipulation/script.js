@@ -9,7 +9,7 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
   // Function to display a random quote
   function showRandomQuote() {
     const selectedCategory = document.getElementById('categoryFilter').value;
-    
+  
     const filteredQuotes = selectedCategory === 'all'
       ? quotes
       : quotes.filter(quote => quote.category === selectedCategory);
@@ -46,7 +46,7 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
       populateCategories();  // Update the dropdown with new categories if needed
       showRandomQuote();  // Display a random quote based on the current filter
   
-      syncWithServer();  // Sync with the server after adding a new quote
+      syncQuotes();  // Sync with the server after adding a new quote
   
       // Clear the input fields
       document.getElementById('newQuoteText').value = '';
@@ -130,17 +130,17 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
   }
   
   // Function to sync quotes with the server (Simulated)
-  async function syncWithServer() {
+  async function syncQuotes() {
     try {
       // Fetch quotes from server
       const serverQuotes = await fetchQuotesFromServer();
   
-      // Conflict resolution: server takes precedence
+      // Merge and resolve conflicts between local and server data
       const conflicts = resolveConflicts(serverQuotes, quotes);
       
       if (conflicts.length > 0) {
         if (confirm('There are conflicts with the server data. Do you want to accept the server changes?')) {
-          quotes = serverQuotes;
+          quotes = serverQuotes;  // Server data takes precedence
           alert("Server data accepted.");
         } else {
           alert("No changes made.");
@@ -209,5 +209,5 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
   showRandomQuote();
   
   // Periodically sync with the server every 30 seconds
-  setInterval(syncWithServer, 30000);
+  setInterval(syncQuotes, 30000);
   
