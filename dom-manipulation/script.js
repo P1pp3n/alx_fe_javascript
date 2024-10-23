@@ -4,6 +4,8 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     { text: "In the end, we will remember not the words of our enemies, but the silence of our friends.", category: "Leadership" }
   ];
   
+  const serverApiUrl = "https://jsonplaceholder.typicode.com/posts";  // Simulated server URL for testing
+  
   // Function to display a random quote
   function showRandomQuote() {
     const selectedCategory = document.getElementById('categoryFilter').value;
@@ -43,6 +45,8 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
       saveQuotes();
       populateCategories();  // Update the dropdown with new categories if needed
       showRandomQuote();  // Display a random quote based on the current filter
+  
+      syncWithServer();  // Sync with the server after adding a new quote
   
       // Clear the input fields
       document.getElementById('newQuoteText').value = '';
@@ -85,6 +89,52 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     showRandomQuote();  // Display a random quote from the selected category
   }
   
+  // Function to sync quotes with the server (Simulated)
+  async function syncWithServer() {
+    try {
+      // Fetch quotes from server
+      const response = await fetch(serverApiUrl);
+      const serverQuotes = await response.json();
+  
+      // Conflict resolution: server takes precedence
+      const conflicts = resolveConflicts(serverQuotes, quotes);
+      
+      if (conflicts.length > 0) {
+        if (confirm('There are conflicts with the server data. Do you want to accept the server changes?')) {
+          quotes = serverQuotes;
+          alert("Server data accepted.");
+        } else {
+          alert("No changes made.");
+        }
+      } else {
+        alert("Data is already synced.");
+      }
+  
+      // Save the resolved data and update the UI
+      saveQuotes();
+      populateCategories();
+      showRandomQuote();
+    } catch (error) {
+      console.error('Error syncing with server:', error);
+      alert("Failed to sync with server.");
+    }
+  }
+  
+  // Function to resolve conflicts
+  function resolveConflicts(serverQuotes, localQuotes) {
+    // Check for any differences between server and local quotes
+    const conflicts = [];
+    
+    serverQuotes.forEach(serverQuote => {
+      const match = localQuotes.find(localQuote => localQuote.text === serverQuote.text && localQuote.category === serverQuote.category);
+      if (!match) {
+        conflicts.push(serverQuote);
+      }
+    });
+  
+    return conflicts;
+  }
+  
   // Function to export quotes as a JSON file
   function exportQuotesToJson() {
     const jsonStr = JSON.stringify(quotes);
@@ -118,4 +168,7 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
   // Populate categories and show a random quote on page load
   populateCategories();
   showRandomQuote();
+  
+  // Periodically sync with the server every 30 seconds
+  setInterval(syncWithServer, 30000);
   
