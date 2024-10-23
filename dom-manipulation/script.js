@@ -108,6 +108,27 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     }
   }
   
+  // Function to send a new quote to the server using POST
+  async function sendQuoteToServer(newQuote) {
+    try {
+      const response = await fetch(serverApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newQuote)
+      });
+  
+      if (response.ok) {
+        console.log('Quote successfully posted to the server.');
+      } else {
+        console.error('Failed to post quote to the server.');
+      }
+    } catch (error) {
+      console.error('Error posting quote to the server:', error);
+    }
+  }
+  
   // Function to sync quotes with the server (Simulated)
   async function syncWithServer() {
     try {
