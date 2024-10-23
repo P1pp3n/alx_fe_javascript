@@ -18,7 +18,7 @@
       font-size: 1.5em;
       background-color: #f9f9f9;
     }
-    button {
+    button, select {
       padding: 10px 20px;
       font-size: 1.2em;
       cursor: pointer;
@@ -31,7 +31,12 @@
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
-  
+
+  <!-- Category filter dropdown -->
+  <select id="categoryFilter" onchange="filterQuotes()">
+    <option value="all">All Categories</option>
+  </select>
+
   <!-- Display the random quote -->
   <div id="quoteDisplay">Click the button to generate a quote!</div>
 
